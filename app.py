@@ -2,12 +2,15 @@ import json
 import streamlit as st
 from pathlib import Path
 from os import mkdir, sep
+from os.path import isdir
 
 cache_dir = str(Path.home()) + sep + '.cache'
-mkdir(dir_cache)
+if not isdir(cache_dir):
+    mkdir(cache_dir)
 cache_dir += sep + 'teste'
-mkdir(dir_cache)
-nome_arq = dir_cache + sep + 'teste.json'
+if not isdir(cache_dir):
+    mkdir(cache_dir)
+nome_arq = cache_dir + sep + 'teste.json'
 
 conteudo = list(range(10))
 with open(nome_arq, 'w', encoding='utf-8') as arq:
@@ -18,5 +21,5 @@ with open(nome_arq, 'r', encoding='utf-8') as arq:
     lista_salva = json.load(arq)
   
 st.write('Olá Mundo!')
-st.write('Lista Salva')
+st.write(lista_salva)
 
