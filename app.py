@@ -10,7 +10,7 @@ Streamlit Rank MME App
 # from os.path import isdir
 import streamlit as st
 from yahoo import lista_ativos
-from rank import rank_mme, plota_mme
+from rank import rank_mme
 import matplotlib.pyplot as plt
 
 # cache_dir = str(Path.home()) + sep + '.cache'
@@ -56,6 +56,7 @@ def plota(df_ativo, lista_janelas):
     # return df_ativo
 
 def lista_rank_mme(janelas, periodo, num_ativos):
+    '''Lista rank MME'''
     lista = lista_ativos()
     dicio_df = {}
     lista_rank = []
@@ -77,6 +78,7 @@ def lista_rank_mme(janelas, periodo, num_ativos):
 
 
 def principal():
+    '''Função principal'''
     st.title('Rank MME')
     # st.write('Rank MME')
     janela_curta = st.slider('Janela curta', 5, 14, step=1, value=9)
