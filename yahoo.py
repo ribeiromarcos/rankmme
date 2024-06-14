@@ -34,7 +34,10 @@ def historico_yahoo(simbolo):
     if not arquivo_atualizado(arquivo):
         hist = _baixa_historico(simbolo, arquivo)
     else:
-        hist = pd.read_csv(arquivo, parse_dates=True, index_col='Date')
+        try:
+            hist = pd.read_csv(arquivo, parse_dates=True, index_col='Date')
+        except Exception: # pylint: disable=broad-except
+            hist = _baixa_historico(simbolo, arquivo)
     return hist
 
 def lista_ativos():
