@@ -4,30 +4,11 @@
 Streamlit Rank MME App
 '''
 
-# import json
-# from pathlib import Path
-# from os import mkdir, sep
-# from os.path import isdir
-import streamlit as st
-from yahoo import lista_ativos
-from rank import rank_mme
 import matplotlib.pyplot as plt
+import streamlit as st
 
-# cache_dir = str(Path.home()) + sep + '.cache'
-# if not isdir(cache_dir):
-#     mkdir(cache_dir)
-# cache_dir += sep + 'teste'
-# if not isdir(cache_dir):
-#     mkdir(cache_dir)
-# nome_arq = cache_dir + sep + 'teste.json'
-
-# conteudo = list(range(10))
-# with open(nome_arq, 'w', encoding='utf-8') as arq:
-#     json.dump(conteudo, arq, indent=2, ensure_ascii=False)
-
-# lista_salva = []
-# with open(nome_arq, 'r', encoding='utf-8') as arq:
-#     lista_salva = json.load(arq)
+from rank import rank_mme
+from yahoo import lista_ativos
 
 
 def plota(df_ativo, lista_janelas):
@@ -50,18 +31,15 @@ def plota(df_ativo, lista_janelas):
              'v', markersize=10, color='r')
     ax1.legend(['Preço', mme_curta, mme_media, mme_longa, 'Compra', 'Venda'])
     st.pyplot(fig)
-    # plt.legend(['Preço', mme_curta, mme_media, mme_longa, 'Compra', 'Venda'])
-    # plt.grid()
-    # plt.show()
-    # return df_ativo
 
-def lista_rank_mme(janelas, periodo, num_ativos):
+def lista_rank_mme(janelas, periodo, limite, num_ativos):
     '''Lista rank MME'''
     lista = lista_ativos()
     dicio_df = {}
     lista_rank = []
     for ativo in lista:
-        rank, df_ativo = rank_mme(ativo, janelas, periodo)
+        print(ativo)
+        rank, df_ativo = rank_mme(ativo, janelas, periodo, limite)
         if len(df_ativo) > 0 and rank > 0:
             dicio_df[ativo] = df_ativo
             atual = {'ativo': ativo, 'rank': rank}
@@ -81,14 +59,15 @@ def principal():
     '''Função principal'''
     st.title('Rank MME')
     # st.write('Rank MME')
-    janela_curta = st.slider('Janela curta', 5, 14, step=1, value=9)
-    janela_media = st.slider('Janela média', 10, 40, step=1, value=30)
+    janela_curta = st.slider('Janela curta', 5, 80, step=1, value=9)
+    janela_media = st.slider('Janela média', 10, 200, step=1, value=30)
     janela_longa = st.slider('Janela longa', 30, 300, step=1, value=200)
-    periodo = st.slider('Período', 5, 120, step=1, value=30)
+    periodo = st.slider('Período gráfico', 5, 120, step=1, value=60)
+    limite = st.slider('Limite cruzamento', 1, 30, step=1, value=1)
     num_ativos = st.slider('Número de ativos', 5, 500, step=1, value=10)
     janelas = [janela_curta, janela_media, janela_longa]
     if st.button('Listar'):
-        lista_rank_mme(janelas, periodo, num_ativos)
+        lista_rank_mme(janelas, periodo, limite, num_ativos)
 
 if __name__ == '__main__':
     principal()

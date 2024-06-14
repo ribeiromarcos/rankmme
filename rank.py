@@ -34,7 +34,7 @@ def calcula_mme(ativo, lista_janelas):
     df_ativo = df_ativo.dropna()
     return df_ativo
 
-def rank_mme(ativo, lista_janelas, periodo):
+def rank_mme(ativo, lista_janelas, periodo, limite):
     '''Rank MME'''
     # df = _baixa_dados(ativo)
     df_ativo = calcula_mme(ativo, lista_janelas)
@@ -42,7 +42,10 @@ def rank_mme(ativo, lista_janelas, periodo):
         return float('-inf'), df_ativo
     lista_janelas.sort()
     df_ativo = df_ativo[-periodo:]
-    df_ult_cru = df_ativo[df_ativo.Cruzamento != 0].tail(1)
+    if limite > periodo:
+        limite = periodo
+    df_ult_cru = df_ativo[-limite:]
+    df_ult_cru = df_ult_cru[df_ult_cru.Cruzamento != 0].tail(1)
     if len(df_ult_cru) == 0:
         return float('-inf'), df_ativo
     mme_longa = 'MME' + str(lista_janelas[1])
@@ -79,7 +82,7 @@ def plota_mme(df_ativo, lista_janelas):
 
 def teste():
     '''Função principal'''
-    rank, df_ativo = rank_mme('KOPA11', [9, 30, 200], 30)
+    rank, df_ativo = rank_mme('KOPA11', [9, 30, 200], 30, 15)
     print(rank)
     if len(df_ativo) > 0:
         plota_mme(df_ativo, [9, 30, 200])
