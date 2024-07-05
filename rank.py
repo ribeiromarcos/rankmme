@@ -82,10 +82,11 @@ def plota_mme(df_ativo, lista_janelas):
 
 def teste():
     '''Função principal'''
-    rank, df_ativo = rank_mme('KOPA11', [9, 30, 200], 30, 15)
+    janelas = [7, 21, 90]
+    rank, df_ativo = rank_mme('CMIG4', janelas, 60, 15)
     print(rank)
     if len(df_ativo) > 0:
-        plota_mme(df_ativo, [9, 30, 200])
+        plota_mme(df_ativo, janelas)
 
 if __name__ == '__main__':
     teste()

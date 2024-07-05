@@ -51,14 +51,14 @@ def lista_rank_mme(janelas, periodo, limite, num_ativos):
     for cont in range(num_ativos):
         ativo = lista_rank[cont]['ativo']
         df_ativo = dicio_df[ativo]
-        st.write(ativo, lista_rank[cont]['rank'])
+        data = df_ativo.index[-1].strftime('%Y-%m-%d')
+        st.write(ativo, ' -- ', data, lista_rank[cont]['rank'])
         plota(df_ativo, janelas)
 
 
 def principal():
     '''Função principal'''
     st.title('Rank MME')
-    # st.write('Rank MME')
     janela_curta = st.slider('Janela curta', 5, 80, step=1, value=9)
     janela_media = st.slider('Janela média', 10, 200, step=1, value=30)
     janela_longa = st.slider('Janela longa', 30, 300, step=1, value=200)
