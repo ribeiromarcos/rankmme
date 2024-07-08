@@ -66,6 +66,20 @@ def principal():
     limite = st.slider('Limite cruzamento', 1, 30, step=1, value=1)
     num_ativos = st.slider('Número de ativos', 5, 500, step=1, value=10)
     janelas = [janela_curta, janela_media, janela_longa]
+    # TODO: Verificar layout mais adequado
+    # TODO: filtro de mercado
+    # BDR / CDA
+    # 463 BOLSA
+    # 51 BOVESPA NIVEL 1
+    # 48 BOVESPA NIVEL 2
+    # 1 FII GEN SHOP
+    # 2 FIP BRZ IE
+    # 617 Fundos
+    # 16 MAIS
+    # 2 MAIS NIVEL 2
+    # 1 MERCADO
+    # 209 NOVO MERCADO
+    # TODO: filtro de volume (padrao = 1000)
     if st.button('Listar'):
         lista_rank_mme(janelas, periodo, limite, num_ativos)
 

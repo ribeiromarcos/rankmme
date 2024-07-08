@@ -32,9 +32,9 @@ def _historico_atualizado(hist):
     '''Verifica se histórico está atualizado'''
     data_final = datetime.now() - timedelta(days=1)
     # Verifica se é domingo ou segunda-feira
-    if data_final.weekday() == 6:
+    if data_final.weekday() == 0:
         data_final -= timedelta(days=1)
-    elif data_final.weekday() == 0:
+    elif data_final.weekday() == 6:
         data_final -= timedelta(days=2)
     return len(hist) > 0 and hist.index[-1].date() >= data_final.date()
 
@@ -47,8 +47,7 @@ def historico_yahoo(simbolo):
         if _historico_atualizado(hist):
             atualizado = True
     except Exception:  # pylint: disable=broad-except
-        hist = _baixa_historico(simbolo, arquivo)
-        atualizado = True
+        pass
     if not atualizado:
         hist = _baixa_historico(simbolo, arquivo)
     return hist
@@ -63,7 +62,7 @@ def lista_ativos():
 def principal():
     '''Função principal'''
     ativos = lista_ativos()
-    for simbolo in ativos[:2]:
+    for simbolo in ativos[:100]:
         print(simbolo)
         hist = historico_yahoo(simbolo)
         print(hist.head())
